@@ -14,7 +14,7 @@ impl AppConfig {
             Ok(value) => value
                 .parse::<u16>()
                 .map_err(|source| AppConfigError::InvalidPort { value, source })?,
-            Err(_) => 3000,
+            Err(_) => 3001,
         };
 
         Ok(Self { host, port })

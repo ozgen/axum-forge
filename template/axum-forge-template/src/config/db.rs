@@ -9,7 +9,7 @@ pub struct DatabaseConfig {
 impl DatabaseConfig {
     pub fn from_env() -> Result<Self, DatabaseConfigError> {
         let url = std::env::var("DATABASE_URL").unwrap_or_else(|_| {
-            "postgres://postgres:postgres@localhost:5432/axum_forge".to_string()
+            "postgres://postgres:postgres@localhost:55432/axum_forge".to_string()
         });
 
         let max_connections = match std::env::var("DATABASE_MAX_CONNECTIONS") {
