@@ -103,9 +103,9 @@ cargo run
 Test endpoints:
 
 ```bash
-curl http://localhost:3000/healthz
-curl http://localhost:3000/readyz
-curl http://localhost:3000/api/v1/items
+curl http://localhost:3001/healthz
+curl http://localhost:3001/readyz
+curl http://localhost:3001/api/v1/items
 ```
 
 ## Vision
