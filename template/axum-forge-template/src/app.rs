@@ -1,5 +1,3 @@
-use core::error;
-
 use axum::{Router, routing::get};
 use sqlx::postgres::PgPoolOptions;
 use thiserror::Error;
@@ -7,7 +5,10 @@ use tower_http::trace::TraceLayer;
 
 use crate::{
     config::Config,
-    modules::{health, items},
+    modules::{
+        health,
+        items::{self},
+    },
     state::AppState,
 };
 
@@ -21,7 +22,7 @@ pub async fn build_app(config: &Config) -> Result<Router, BuildAppError> {
     // Migrate db always
     sqlx::migrate!("./migrations").run(&db).await?;
 
-    let state = AppState { db };
+    let state = AppState::new(db);
 
     let app = Router::new()
         .route("/healthz", get(health::handlers::healthz))
@@ -39,5 +40,5 @@ pub enum BuildAppError {
     DatabaseConnection(#[source] sqlx::Error),
 
     #[error("failed to run migrations: {0}")]
-    Migration(#[from]sqlx::migrate::MigrateError)
+    Migration(#[from] sqlx::migrate::MigrateError),
 }

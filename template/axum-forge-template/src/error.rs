@@ -15,6 +15,7 @@ pub struct AppError {
     pub details: Option<ErrorDetails>,
 }
 
+#[allow(dead_code)]
 impl AppError {
     pub fn new(
         status: StatusCode,
@@ -112,6 +113,8 @@ impl IntoResponse for AppError {
     }
 }
 
+
+#[allow(dead_code)]
 pub trait ToAppError {
     fn to_app_error(self) -> AppError;
 }
@@ -130,6 +133,7 @@ pub struct ErrorBody {
 
 #[derive(Debug, Clone, Serialize)]
 #[serde(untagged)]
+#[allow(dead_code)]
 pub enum ErrorDetails {
     Text(String),
     Validation(ValidationDetails),

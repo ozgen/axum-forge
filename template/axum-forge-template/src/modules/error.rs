@@ -3,6 +3,7 @@ use thiserror::Error;
 use crate::error::{AppError, ToAppError};
 
 #[derive(Debug, Error)]
+#[allow(dead_code)]
 pub enum EntityError {
     #[error("{entity} not found")]
     NotFound { entity: &'static str },
