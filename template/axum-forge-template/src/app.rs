@@ -1,3 +1,5 @@
+use core::error;
+
 use axum::{Router, routing::get};
 use sqlx::postgres::PgPoolOptions;
 use thiserror::Error;
@@ -16,6 +18,9 @@ pub async fn build_app(config: &Config) -> Result<Router, BuildAppError> {
         .await
         .map_err(BuildAppError::DatabaseConnection)?;
 
+    // Migrate db always
+    sqlx::migrate!("./migrations").run(&db).await?;
+
     let state = AppState { db };
 
     let app = Router::new()
@@ -32,4 +37,7 @@ pub async fn build_app(config: &Config) -> Result<Router, BuildAppError> {
 pub enum BuildAppError {
     #[error("failed to connect to database: {0}")]
     DatabaseConnection(#[source] sqlx::Error),
+
+    #[error("failed to run migrations: {0}")]
+    Migration(#[from]sqlx::migrate::MigrateError)
 }
